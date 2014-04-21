@@ -1,0 +1,45 @@
+html, body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+	text-align: center;
+}
+
+.box {
+	width: 100%;
+	height: 300px;
+	border-top: 1px solid #222;
+	/*padding-top: 20px;*/
+}
+
+#editor {
+    margin: 0;
+	height: inherit;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+	text-align: left;
+}
+
+textarea, #editor div {
+    display: inline-block;
+    width: 49%;
+	height: inherit;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+textarea {
+    border: none;
+    border-right: 1px solid #ccc;
+    resize: none;
+    outline: none;
+    background-color: #f6f6f6;
+    font-size: 14px;
+    font-family: 'Monaco', courier, monospace;
+	padding: 20px;
+}
+
+code {
+    color: #f66;
+}

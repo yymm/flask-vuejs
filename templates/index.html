@@ -1,0 +1,28 @@
+<!doctype html>
+<html ng-app="myapp">
+{% block head %}
+<script src="[[ url_for('static', filename='js/vue.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/marked.min.js') ]]"></script>
+<link rel="stylesheet" href="[[ url_for('static', filename='css/style.css') ]]">
+{% endblock %}
+
+{% block body %}
+<h1>vue.js with flask sample.</h1>
+<section class="box" id="simple">
+	<h1>Simple example</h1>
+	<h2>{{message}}</h2>
+	<br>
+	<input v-model="message">
+</section>
+<section class="box">
+	<h1>Wire up backend</h1>
+</section>
+<section class="box">
+	<h1>Markdown Editor</h1>
+	<div id="editor">
+		<textarea v-model="input"></textarea>
+		<div v-html="input | marked"></div>
+	</div>
+</section>
+<script src="[[ url_for('static', filename='js/general.js') ]]"></script>
+{% endblock %}

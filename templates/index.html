@@ -7,17 +7,32 @@
 {% endblock %}
 
 {% block body %}
-<h1>vue.js with flask sample.</h1>
-<section class="box" id="simple">
+<h1 style="background-color: #42b983; padding: 0; margin: 0;">vue.js with flask sample.</h1>
+<section class="box" id="simple" style="background-color: #aaa;">
 	<h1>Simple example</h1>
 	<h2>{{message}}</h2>
 	<br>
 	<input v-model="message">
 </section>
-<section class="box">
-	<h1>Wire up backend</h1>
+<section class="box" id="commits" style="background-color: #eee;">
+	<h1>Github commits</h1>
+	<input id="master" type="radio" name="branch" v-model="branch" value="master">
+	<label for="master">master</label>
+	<br>
+	<input id="master" type="radio" name="branch" v-model="branch" value="dev/oauth">
+	<label for="dev">dev</label>
+	<ul>
+		<li v-repeat="commits">
+			<a class="commit" href="{{html_url}}" target="_blank">
+				{{sha.slice(0,7)}}
+			</a>
+			- <span class="message">{{commit.message | truncate}}</span><br>
+			by <span class="author">{{commit.author.name}}</span><br>
+			at <span class="author">{{commit.author.date | formatDate}}</span>
+		</li>
+	</ul>
 </section>
-<section class="box">
+<section class="box" style="background-color: #aaa;">
 	<h1>Markdown Editor</h1>
 	<div id="editor">
 		<textarea v-model="input"></textarea>

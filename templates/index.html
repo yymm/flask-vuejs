@@ -58,6 +58,17 @@
 	</div>
 </section>
 <section class="box" style="background-color: #aaa;">
+	<h1>SVG sample</h1>
+	<div id="svg-sample">
+		<svg v-component="polygraph" v-with="stats:stats"></svg>
+		<div v-repeat="stats">
+			<label>[[label]]</label>
+			<input type="range" v-model="value" min="0" max="100" />
+			<span>[[value]]</span>
+		</div>
+	</div>
+</section>
+<section class="box" style="background-color: #eee;">
 	<h1>Markdown Editor</h1>
 	<div id="editor">
 		<textarea v-model="input"></textarea>
@@ -82,6 +93,15 @@
 		</tr>
 	</tbody>
 </table>
+</script>
+<script type="text/x-template" id="polygraph-template">
+<svg width="200" height="200">
+	<polygon v-attr="points: points"></polygon>
+	<circle cx="100" cy="100" r="80"></circle>
+	<text v-component="axis-label" v-repeat="stats" v-attr="x:x, y:y">
+		[[label]]
+	</text>
+</svg>
 </script>
 
 <script src="{{ url_for('static', filename='js/general.js') }}"></script>

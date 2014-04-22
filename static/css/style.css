@@ -55,3 +55,12 @@ textarea {
 code {
     color: #f66;
 }
+
+polygon {
+	fill: #42b983;
+	opacity: 0.75;
+}
+circle {
+	fill: transparent;
+	stroke: #999;
+}

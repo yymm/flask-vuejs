@@ -53,3 +53,41 @@ var commits = new Vue({
 		}
 	}
 })
+
+var emailRE = emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+var adduser = new Vue({
+	el: "#adduser",
+	data: {
+		users: [],
+		newUser: {
+			name: '',
+			email: ''
+		},
+		validation: {
+			name: false,
+			email: false
+		}
+	},
+	filters: {
+		nameValidator: function(val){
+			this.validation.name = !!val;
+			return val;
+		},
+		emailValidator: function(val){
+			this.validation.email = emailRE.test(val);
+			return val;
+		}
+	},
+	methods: {
+		addUser: function(e){
+			e.preventDefault();
+			if(this.validation.name && this.validation.email){
+				var user = this.newUser;
+				this.users.push(user);
+				this.newUser = {};
+			}
+		}
+	}
+})
+

@@ -1,3 +1,7 @@
+Vue.config({
+	delimiters: ['[', ']']
+})
+
 var simple = new Vue({
 	el: "#simple",
 	data: {

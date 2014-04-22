@@ -1,16 +1,16 @@
 <!doctype html>
 <html ng-app="myapp">
 {% block head %}
-<script src="[[ url_for('static', filename='js/vue.js') ]]"></script>
-<script src="[[ url_for('static', filename='js/marked.min.js') ]]"></script>
-<link rel="stylesheet" href="[[ url_for('static', filename='css/style.css') ]]">
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+<script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block body %}
 <h1 style="background-color: #42b983; padding: 0; margin: 0;">vue.js with flask sample.</h1>
 <section class="box" id="simple" style="background-color: #aaa;">
 	<h1>Simple example</h1>
-	<h2>{{message}}</h2>
+	<h2>[[message]]</h2>
 	<br>
 	<input v-model="message">
 </section>
@@ -23,12 +23,12 @@
 	<label for="dev">dev</label>
 	<ul>
 		<li v-repeat="commits">
-			<a class="commit" href="{{html_url}}" target="_blank">
-				{{sha.slice(0,7)}}
+			<a class="commit" href="[[html_url]]" target="_blank">
+				[[sha.slice(0,7)]]
 			</a>
-			- <span class="message">{{commit.message | truncate}}</span><br>
-			by <span class="author">{{commit.author.name}}</span><br>
-			at <span class="author">{{commit.author.date | formatDate}}</span>
+			- <span class="message">[[commit.message | truncate]]</span><br>
+			by <span class="author">[[commit.author.name]]</span><br>
+			at <span class="author">[[commit.author.date | formatDate]]</span>
 		</li>
 	</ul>
 </section>
@@ -39,5 +39,5 @@
 		<div v-html="input | marked"></div>
 	</div>
 </section>
-<script src="[[ url_for('static', filename='js/general.js') ]]"></script>
+<script src="{{ url_for('static', filename='js/general.js') }}"></script>
 {% endblock %}

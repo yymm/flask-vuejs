@@ -192,6 +192,21 @@ var svgsample = new Vue({
 		format: function(stats){
 			return JSON.stringify(stats, null, 2);
 		}
+	},
+	methods: {
+		add: function(){
+			if(!this.newLabel) return;
+			this.stats.push({
+				label: this.newLabel,
+				value: 100
+			});
+			this.newLabel = '';
+		},
+		remove: function(stat){
+			if(this.stats.length > 3){
+				this.stats.remove(stat.$data);
+			}
+		}
 	}
 })
 

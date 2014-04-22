@@ -60,11 +60,18 @@
 <section class="box" style="background-color: #aaa;">
 	<h1>SVG sample</h1>
 	<div id="svg-sample">
-		<svg v-component="polygraph" v-with="stats:stats"></svg>
-		<div v-repeat="stats">
-			<label>[[label]]</label>
-			<input type="range" v-model="value" min="0" max="100" />
-			<span>[[value]]</span>
+		<div class="div-column">
+			<svg v-component="polygraph" v-with="stats:stats"></svg>
+		</div>
+		<div class="div-column">
+			<div v-repeat="stats">
+				<label>[[label]]</label>
+				<input type="range" v-model="value" min="0" max="100" />
+				<span>[[value]]</span>
+				<!--<button v-on="click:remove(this)">x</button>-->
+				<br>
+			</div>
+			<input v-model="newLabel"> <button v-on="click:add">Add a stat</button>
 		</div>
 	</div>
 </section>

@@ -64,3 +64,8 @@ circle {
 	fill: transparent;
 	stroke: #999;
 }
+
+.div-column {
+	margin: 0 30px;
+	display: inline-block;
+}

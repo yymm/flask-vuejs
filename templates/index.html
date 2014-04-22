@@ -52,11 +52,37 @@
 	</div>
 </section>
 <section class="box" style="background-color: #eee;">
+	<h1>Template sample - grid component</h1>
+	<div id="grid-component">
+		<table v-component="grid" v-with="gridOptions"></table>
+	</div>
+</section>
+<section class="box" style="background-color: #aaa;">
 	<h1>Markdown Editor</h1>
 	<div id="editor">
 		<textarea v-model="input"></textarea>
 		<div v-html="input | marked"></div>
 	</div>
 </section>
+<!--
+
+		Vue.js template
+
+-->
+<script type="text/x-template" id="grid-template">
+<table>
+	<thead>
+		<tr>
+			<th v-repeat="columns" v-on="click:sortBy(key)">[[header]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-repeat="data">
+			<td v-repeat="columns">[[ $parent[key] ]]</td>
+		</tr>
+	</tbody>
+</table>
+</script>
+
 <script src="{{ url_for('static', filename='js/general.js') }}"></script>
 {% endblock %}

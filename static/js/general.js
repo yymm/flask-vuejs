@@ -91,3 +91,40 @@ var adduser = new Vue({
 	}
 })
 
+var data = [
+	{ name: 'Chuck Norris', power: Infinity },
+	{ name: 'Goku', power: 20000 },
+	{ name: 'Vegeta', power: 18000 },
+	{ name: 'Freeza', power: 530000 }
+]
+
+Vue.component('grid', {
+	template: "#grid-template",
+	replace: true,
+	created: function(){
+		this.ascending = {};
+	},
+	methods: {
+		sortBy: function(key){
+			var asc = this.ascending[key] = !this.ascending[key];
+			this.data.sort(function(a, b){
+				var res = a[key] > b[key];
+				if (asc) res = !res;
+				return res ? 1 : -1;
+			});
+		}
+	}
+})
+
+var gridcomponent = new Vue({
+	el: "#grid-component",
+	data: {
+		gridOptions: {
+			data: data,
+			columns: [
+				{ header: 'Name', key: 'name' },
+				{ header: 'Power', key: 'power' }
+			]
+		}
+	}
+})

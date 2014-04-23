@@ -210,3 +210,10 @@ var svgsample = new Vue({
 	}
 })
 
+
+Vue.component('img-slider', {
+	template: '#img-slider-template',
+	replace: true
+})
+
+new Vue({el: '#image-slider'})

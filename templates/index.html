@@ -75,7 +75,18 @@
 		</div>
 	</div>
 </section>
-<section class="box" style="background-color: #eee;">
+<section class="box" style="background-color: #eee; height: 550px;">
+	<h1>Image Slider</h1>
+	<div id="image-slider">
+		<img-slider>
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/rock.jpg">
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/grooves.jpg">
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/arch.jpg">
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/sunset.jpg">
+		</img-slider>
+	</div>
+</section>
+<section class="box" style="background-color: #aaa; height: 500px;">
 	<h1>Markdown Editor</h1>
 	<div id="editor">
 		<textarea v-model="input"></textarea>
@@ -109,6 +120,35 @@
 		[[label]]
 	</text>
 </svg>
+</script>
+<script type="text/x-template" id="img-slider-template">
+<div id="slider">
+	<input id="slide1" type="radio" checked="" name="slider" selected="false">
+	<input id="slide2" type="radio" name="slider" selected="false">
+	<input id="slide3" type="radio" name="slider" selected="false">
+	<input id="slide4" type="radio" name="slider" selected="false">
+	<div id="slides">
+		<div id="overflow">
+			<div class="inner">
+				<article>
+					<content select="img:nth-of-type(1)"></content>
+				</article>
+				<article>
+					<content select="img:nth-of-type(2)"></content>
+				</article>
+				<article>
+					<content select="img:nth-of-type(3)"></content>
+				</article>
+				<article>
+					<content select="img:nth-of-type(4)"></content>
+				</article>
+			</div>
+		</div>
+	</div>
+	<label for="slide1"></label>
+	<label for="slide2"></label>
+	<label for="slide3"></label>
+	<label for="slide4"></label>
 </script>
 
 <script src="{{ url_for('static', filename='js/general.js') }}"></script>

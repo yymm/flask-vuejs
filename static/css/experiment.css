@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'Yutapon';
+	src: url(YutaponcodingRegularforPowerlineforPowerline.TTF);
+}
+
+body {
+	font-family: Yutapon;
+}

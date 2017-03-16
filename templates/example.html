@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+{% endblock %}
+
+{% block body %}
+<div>
+  <div id="example">
+    <h2>Delimiters changing!</h2>
+    <p>Vue: ((message))</p>
+    <p>Jinja2: [[message]]</p>
+  </div>
+  <div id="code">
+    <pre><div>Python</div><code class="python">
+from flask import Flask, render_template
+
+
+class CustomFlask(Flask):
+    jinja_options = Flask.jinja_options.copy()
+    jinja_options.update(dict(
+      block_start_string='(%',
+      block_end_string='%)',
+      variable_start_string='((',
+      variable_end_string='))',
+      comment_start_string='(#',
+      comment_end_string='#)',
+    ))
+
+
+app = CustomFlask(__name__)
+
+
+@app.route('/example')
+def example():
+    message = "Hello Flask!"
+    return render_template('example.html', message=message)
+    </code></pre>
+    <pre><div>JavaScript</div><code class="javascript">
+var example = new Vue({
+  el: "#example",
+  delimiters: ["[[", "]]"],
+  data: {
+    message: "Hello Vue!"
+  }
+})
+    </code></pre>
+    <pre><div>HTML</div><code class="html">
+&lt;div id="example"&gt;
+  &lt;h2&gt;Delimiters changing!&lt;/h2&gt;
+  &lt;p&gt;Vue: ((message))&lt;/p&gt;
+  &lt;p&gt;Jinja2: [[message]]&lt;/p&gt;
+&lt;/div&gt;
+    </code></pre>
+  </div>
+</div>
+
+<script>
+var example = new Vue({
+  el: "#example",
+  delimiters: ["[[", "]]"],
+  data: {
+    message: "Hello Vue!"
+  }
+})
+</script>
+{% endblock %}

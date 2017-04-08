@@ -1,0 +1,155 @@
+<!doctype html>
+<html ng-app="myapp">
+{% block head %}
+<script src="(( url_for('static', filename='js/vue.js') ))"></script>
+<script src="(( url_for('static', filename='js/marked.min.js') ))"></script>
+<link rel="stylesheet" href="(( url_for('static', filename='css/style.css') ))">
+{% endblock %}
+
+{% block body %}
+<h1 style="background-color: #42b983; padding: 0; margin: 0;">vue.js with flask sample.</h1>
+<section class="box" id="simple" style="background-color: #aaa;">
+	<h1>Simple example</h1>
+	<h2>[[message]]</h2>
+	<br>
+	<input v-model="message">
+</section>
+<section class="box" id="commits" style="background-color: #eee;">
+	<h1>Github commits</h1>
+	<input id="master" type="radio" name="branch" v-model="branch" value="master">
+	<label for="master">master</label>
+	<br>
+	<input id="master" type="radio" name="branch" v-model="branch" value="dev/oauth">
+	<label for="dev">dev</label>
+	<ul>
+		<li v-repeat="commits">
+			<a class="commit" href="[[html_url]]" target="_blank">
+				[[sha.slice(0,7)]]
+			</a>
+			- <span class="message">[[commit.message | truncate]]</span><br>
+			by <span class="author">[[commit.author.name]]</span><br>
+			at <span class="author">[[commit.author.date | formatDate]]</span>
+		</li>
+	</ul>
+</section>
+<section class="box" style="background-color: #aaa;">
+	<h1>Add user sample</h1>
+	<div id="adduser">
+		<ul class="users">
+			<li class="user" v-repeat="users" v-transition>
+				<span>[[name]] - [[email]]</span>
+			</li>
+		</ul>
+		<form id="form" v-on="submit:addUser">
+			<input v-model="newUser.name | nameValidator">
+			<input v-model="newUser.email | emailValidator">
+			<input type="submit" value="Add User">
+		</form>
+		<ul class="errors">
+			<li v-show="!validation.name">Name can not be empty.</li>
+			<li v-show="!validation.email">Please provide a valid email address.</li>
+		</ul>
+	</div>
+</section>
+<section class="box" style="background-color: #eee;">
+	<h1>Template sample - grid component</h1>
+	<div id="grid-component">
+		<table v-component="grid" v-with="gridOptions"></table>
+	</div>
+</section>
+<section class="box" style="background-color: #aaa;">
+	<h1>SVG sample</h1>
+	<div id="svg-sample">
+		<div class="div-column">
+			<svg v-component="polygraph" v-with="stats:stats"></svg>
+		</div>
+		<div class="div-column">
+			<div v-repeat="stats">
+				<label>[[label]]</label>
+				<input type="range" v-model="value" min="0" max="100" />
+				<span>[[value]]</span>
+				<!--<button v-on="click:remove(this)">x</button>-->
+				<br>
+			</div>
+			<input v-model="newLabel"> <button v-on="click:add">Add a stat</button>
+		</div>
+	</div>
+</section>
+<section class="box" style="background-color: #eee; height: 550px;">
+	<h1>Image Slider</h1>
+	<div id="image-slider">
+		<img-slider>
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/rock.jpg">
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/grooves.jpg">
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/arch.jpg">
+        	<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5689/sunset.jpg">
+		</img-slider>
+	</div>
+</section>
+<section class="box" style="background-color: #aaa; height: 500px;">
+	<h1>Markdown Editor</h1>
+	<div id="editor">
+		<textarea v-model="input"></textarea>
+		<div v-html="input | marked"></div>
+	</div>
+</section>
+<!--
+
+		Vue.js template
+
+-->
+<script type="text/x-template" id="grid-template">
+<table>
+	<thead>
+		<tr>
+			<th v-repeat="columns" v-on="click:sortBy(key)">[[header]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-repeat="data">
+			<td v-repeat="columns">[[ $parent[key] ]]</td>
+		</tr>
+	</tbody>
+</table>
+</script>
+<script type="text/x-template" id="polygraph-template">
+<svg width="200" height="200">
+	<polygon v-attr="points: points"></polygon>
+	<circle cx="100" cy="100" r="80"></circle>
+	<text v-component="axis-label" v-repeat="stats" v-attr="x:x, y:y">
+		[[label]]
+	</text>
+</svg>
+</script>
+<script type="text/x-template" id="img-slider-template">
+<div id="slider">
+	<input id="slide1" type="radio" checked="" name="slider" selected="false">
+	<input id="slide2" type="radio" name="slider" selected="false">
+	<input id="slide3" type="radio" name="slider" selected="false">
+	<input id="slide4" type="radio" name="slider" selected="false">
+	<div id="slides">
+		<div id="overflow">
+			<div class="inner">
+				<article>
+					<content select="img:nth-of-type(1)"></content>
+				</article>
+				<article>
+					<content select="img:nth-of-type(2)"></content>
+				</article>
+				<article>
+					<content select="img:nth-of-type(3)"></content>
+				</article>
+				<article>
+					<content select="img:nth-of-type(4)"></content>
+				</article>
+			</div>
+		</div>
+	</div>
+	<label for="slide1"></label>
+	<label for="slide2"></label>
+	<label for="slide3"></label>
+	<label for="slide4"></label>
+</script>
+
+<script src="(( url_for('static', filename='js/general.js') ))"></script>
+{% endblock %}

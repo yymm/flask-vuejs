@@ -1,0 +1,50 @@
+<!doctype html>
+<title>flask-vue.js</title>
+
+{% block head %}
+<style>
+h1, h2, h3 {
+  font-weight: normal;
+}
+a {
+  color: #42b983;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+#code {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+}
+#code pre {
+  padding: 0 10px;
+}
+#code code {
+  padding: 0 40px;
+}
+#code pre div {
+  background-color: #555;
+  color: #aaa;
+  font-weight: bold;
+  padding: 3px;
+}
+</style>
+<!--highlight.js https://highlightjs.org/-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/solarized-dark.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% block script %}{% endblock %}
+{% block style %}{% endblock %}
+{% endblock %}
+
+<div id="app">
+  <img height="200px" src="http://flask.pocoo.org/static/logo/flask.png">
+  <img height="200px" src="https://jp.vuejs.org/images/logo.png">
+  {% block body %}{% endblock %}
+</div>

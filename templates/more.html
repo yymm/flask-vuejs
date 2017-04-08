@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+{% endblock %}
+
+{% block body %}
+<div id="more">
+  <br>
+  <a href="https://jp.vuejs.org/v2/guide/">Vue.js Guide</a>
+
+  <h1>v-if</h1>
+  <div id="if">
+    <p>Click button, then toggle the code block by v-if.</p>
+    <button v-on:click="toggle">Toggle</button>
+    <template v-if="state">
+      <div id="code">
+        <pre><div>JavaScript</div><code class="javascript">
+var if_ = new Vue({
+  el: "#if",
+  delimiters: ["[[", "]]"],
+  data: {
+    state: true
+  },
+  methods: {
+    toggle: function() {
+      this.state = (this.state === true) ? false : true;
+    }
+  }
+})
+        </pre></code>
+      </div>
+    </template>
+  </div>
+
+  <h1>v-for</h1>
+  <h1>v-on</h1>
+  <h1>v-bind</h1>
+  <h1>v-model</h1>
+  <h1>component</h1>
+  <h1>computed & method</h1>
+</div>
+
+<script>
+var if_ = new Vue({
+  el: "#if",
+  delimiters: ["[[", "]]"],
+  data: {
+    state: true
+  },
+  methods: {
+    toggle: function() {
+      this.state = (this.state === true) ? false : true;
+    }
+  }
+})
+
+var for_ = new Vue({
+  el: "#for",
+  delimiters: ["[[", "]]"],
+  data: {
+    list: []
+  }
+})
+</script>
+{% endblock %}

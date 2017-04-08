@@ -49,13 +49,16 @@ requirements: Flask (=> pip install Flask)
 
 ```
 $ git clone https://github.com/yymm/flask-vuejs.git
-$ cd flask-vue.js
+$ cd flask-vuejs
 $ python app.py
 ```
 
 ## Menu
 
-- Jinja2 $ Vue.js
+- Jinja2 & Vue.js
+
+(coming soon...)
+
 - Simgle File Component
 - more...
 - SPA

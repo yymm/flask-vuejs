@@ -1,9 +1,9 @@
 <!doctype html>
 <html ng-app="myapp">
 {% block head %}
-<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
-<script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="(( url_for('static', filename='js/vue.js') ))"></script>
+<script src="(( url_for('static', filename='js/marked.min.js') ))"></script>
+<link rel="stylesheet" href="(( url_for('static', filename='css/style.css') ))">
 {% endblock %}
 
 {% block body %}
@@ -151,5 +151,5 @@
 	<label for="slide4"></label>
 </script>
 
-<script src="{{ url_for('static', filename='js/general.js') }}"></script>
+<script src="(( url_for('static', filename='js/general.js') ))"></script>
 {% endblock %}

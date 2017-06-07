@@ -59,7 +59,7 @@ $ python app.py
 
 (coming soon...)
 
-- Simgle File Component
+- Single File Component
 - more...
 - SPA
   - using CDN

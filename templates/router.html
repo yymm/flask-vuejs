@@ -6,7 +6,84 @@
 {% endblock %}
 
 {% block style %}
+<style>
+hr {
+  width: 60%;
+  height: 10px;
+  border: 0;
+  box-shadow: 0 5px 5px -5px #bbb inset;
+  padding: 20px;
+}
+</style>
 {% endblock %}
 
 {% block body %}
+<h1>Vue-router simple example</h1>
+<div class="code">
+  <pre><div>JavaScript</div><code class="javascript">
+const Home = { template: '&lt;div&gt;home&lt;/div&gt;' }
+const Foo = { template: '&lt;div&gt;foo&lt;/div&gt;' }
+const Bar = { template: '&lt;div&gt;bar&lt;/div&gt;' }
+
+const router = new VueRouter({
+  routes: [
+    { path: '/', component: Home },
+    { path: '/foo', component: Foo },
+    { path: '/bar', component: Bar }
+  ]
+})
+
+new Vue({
+  router,
+  template: `
+    &lt;div id="app"&gt;
+      &lt;h1&gt;Vue-router simple example&lt;/h1&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;router-link to="/"&gt;/&lt;/router-link&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;router-link to="/foo"&gt;/foo&lt;/router-link&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;router-link to="/bar"&gt;/bar&lt;/router-link&gt;&lt;/li&gt;
+        &lt;hr /&gt;
+        &lt;router-link tag="li" to="/bar" :event="['mousedown', 'touchstart']"&gt;
+          &lt;a&gt;/bar&lt;/a&gt;
+        &lt;/router-link&gt;
+      &lt;/ul&gt;
+      &lt;router-view class="view"&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+  `
+}).$mount('#router')
+  </code></pre>
+</div>
+<hr />
+<div id="router"></div>
+
+<script>
+const Home = { template: '<div>home</div>' }
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+const router = new VueRouter({
+  routes: [
+    { path: '/', component: Home },
+    { path: '/foo', component: Foo },
+    { path: '/bar', component: Bar }
+  ]
+})
+
+new Vue({
+  router,
+  template: `
+    <div id="app">
+      <ul>
+        <li><router-link to="/">/</router-link></li>
+        <li><router-link to="/foo">/foo</router-link></li>
+        <li><router-link to="/bar">/bar</router-link></li>
+        <router-link tag="li" to="/bar" :event="['mousedown', 'touchstart']">
+          <a>/bar</a>
+        </router-link>
+      </ul>
+      <router-view class="view"></router-view>
+    </div>
+  `
+}).$mount('#router')
+</script>
 {% endblock %}

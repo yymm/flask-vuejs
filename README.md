@@ -53,19 +53,17 @@ $ cd flask-vuejs
 $ python app.py
 ```
 
+see localhost:5000.
+
 ## Menu
 
-- Jinja2 & Vue.js
-
-(coming soon...)
-
-- Single File Component
-- more...
+- [x] Jinja2 & Vue.js
+- [x] more...
 - SPA
   - using CDN
-    - axios(json api)
-    - vue-router
-    - vuex
-  - using Node.js
-    - webpack
-- Vue.js v0.10.3
+    - [x] vue-router
+  - using Node.js(using vue-cli 'webpack-simple')
+    - [x] Single File Component
+    - [ ] TypeScript with Single File Component
+    - [ ] Vuex
+- [x] Vue.js v0.10.3

@@ -27,19 +27,9 @@ def example():
     return render_template('example.html', message=message)
 
 
-@app.route('/sfc')
-def sfc():
-    return render_template('sfc.html')
-
-
 @app.route('/more')
 def more():
     return render_template('more.html')
-
-
-@app.route('/axios')
-def axios():
-    return render_template('axios.html')
 
 
 @app.route('/router')
@@ -47,14 +37,19 @@ def router():
     return render_template('router.html')
 
 
+@app.route('/sfc')
+def sfc():
+    return render_template('sfc.html')
+
+
+@app.route('/typescript')
+def typescript():
+    return render_template('typescript.html')
+
+
 @app.route('/vuex')
 def vuex():
     return render_template('vuex.html')
-
-
-@app.route('/webpack')
-def webpack():
-    return render_template('webpack.html')
 
 
 @app.route('/v0.10.3')

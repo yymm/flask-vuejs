@@ -11,11 +11,16 @@
 
   <h1>v-if</h1>
   <div id="if">
-    <p>Click button, then toggle the code block by v-if.</p>
+    <p>v-if and v-on:click example.</p>
     <button v-on:click="toggle">Toggle</button>
     <template v-if="state">
-      <div id="code">
-        <pre><div>JavaScript</div><code class="javascript">
+      <ul style="width: 300px; margin: auto;">
+        <li><p>Click "Toggle Button"!</p></li>
+        <li><p>Toggle ul element with vue's template.</p></li>
+      </ul>
+    </template>
+    <div class="code">
+      <pre><div>JavaScript</div><code id="if-code" class="javascript">
 var if_ = new Vue({
   el: "#if",
   delimiters: ["[[", "]]"],
@@ -28,17 +33,64 @@ var if_ = new Vue({
     }
   }
 })
-        </pre></code>
-      </div>
-    </template>
+      </pre></code>
+    </div>
   </div>
 
   <h1>v-for</h1>
-  <h1>v-on</h1>
-  <h1>v-bind</h1>
-  <h1>v-model</h1>
-  <h1>component</h1>
-  <h1>computed & method</h1>
+    <div style="width: 300px; display: flex; flex-flow: row wrap; margin: auto;" id="for">
+      <p>v-for and methods example.</p>
+      <div style="flex: 1; margin: 10px;" v-for="item in items">
+        <div style="min-width: 100px; min-height: 100px; display: flex; justify-content: center; align-items: stretch; line-height: 100px;" v-bind:style="{ background: item.color }">
+          <p style="font-weight: bold; font-size: 1.5rem;" v-bind:style="{ color: invertColor(item.color) }">
+            [[item.name]]
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="code">
+      <pre><div>JavaScript</div><code id="if-code" class="javascript">
+var for_ = new Vue({
+  el: "#for",
+  delimiters: ["[[", "]]"],
+  data: {
+    items: [
+      {
+        name: "apple",
+        color: "#ff0800"
+      },
+      {
+        name: "orange",
+        color: "#ff4500"
+      },
+      {
+        name: "grape",
+        color: "#6f2da8"
+      },
+      {
+        name: "melon",
+        color: "#b4fdbc"
+      }
+    ]
+  },
+  methods: {
+    toRGB: function(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? result.slice(1).map(function(v) { return parseInt(v, 16); }) : null;
+    },
+    toHEX: function(rgb) {
+      return "#" + rgb.map(function(c) {
+          var hex = c.toString(16);
+          return hex.length == 1 ? "0" + hex : hex;
+      }).reduce(function(p, c) { return p + c; });
+    },
+    invertColor: function(color) {
+      return this.toHEX(this.toRGB(color).map(v => { return 255 - v; }));
+    }
+  }
+})
+      </pre></code>
+    </div>
 </div>
 
 <script>
@@ -59,7 +111,39 @@ var for_ = new Vue({
   el: "#for",
   delimiters: ["[[", "]]"],
   data: {
-    list: []
+    items: [
+      {
+        name: "apple",
+        color: "#ff0800"
+      },
+      {
+        name: "orange",
+        color: "#ff4500"
+      },
+      {
+        name: "grape",
+        color: "#6f2da8"
+      },
+      {
+        name: "melon",
+        color: "#b4fdbc"
+      }
+    ]
+  },
+  methods: {
+    toRGB: function(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? result.slice(1).map(function(v) { return parseInt(v, 16); }) : null;
+    },
+    toHEX: function(rgb) {
+      return "#" + rgb.map(function(c) {
+          var hex = c.toString(16);
+          return hex.length == 1 ? "0" + hex : hex;
+      }).reduce(function(p, c) { return p + c; });
+    },
+    invertColor: function(color) {
+      return this.toHEX(this.toRGB(color).map(v => { return 255 - v; }));
+    }
   }
 })
 </script>

@@ -45,6 +45,8 @@ var app = new Vue({
 
 # Example & Tips
 
+This repository contain some example, if you want to try it please do as follows.
+
 requirements: Flask (=> pip install Flask)
 
 ```
@@ -55,9 +57,16 @@ $ python app.py
 
 see localhost:5000.
 
+## Heroku Button
+
+Try it now.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Menu
 
 - [x] Jinja2 & Vue.js
+- [x] with SQLAlchemy(Flask-SQLAlchemy)
 - [x] more...
 - SPA
   - using CDN

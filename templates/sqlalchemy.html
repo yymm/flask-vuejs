@@ -1,0 +1,252 @@
+{% extends "layout.html" %}
+
+{% block style %}
+<style>
+#todos-jinja, #todos-vue {
+  display: flex;
+  justify-content: center;
+}
+.todo {
+  padding: 2px;
+  margin: 10px;
+  border: 1px #eee solid;
+}
+.datetime {
+  font-size: 60%;
+}
+</style>
+{% endblock %}
+
+{% block script %}
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<h1>SQLAlchemy TODO Example</h1>
+<p>using <a target="_blank" href="">Flask-SQLAlchemy</a></p>
+<hr />
+
+<h3>Flask rendered TODO list (View only).</h3>
+
+<div id="todos-jinja">
+  <div>
+  {% for todo in todos %}
+  <div class="todo">
+    <span class="title">
+      <input type="checkbox" (( " checked" if todo.done )) disabled></input>
+      {% if todo.done %}
+      <strike>(( todo.title ))</strike>
+      {% else %}
+      <span>(( todo.title ))</span>
+      {% endif %}
+      <span class="datetime">(( todo.pub_date.strftime('%Y-%m-%d %H:%M') ))</span>
+    </span>
+  </div>
+  {% endfor %}
+  </div>
+</div>
+
+<div class="code">
+  <pre><div>Python</div><code class="python">
+from flask import Flask, render_template, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+
+app = CustomFlask(__name__)
+app.config.from_pyfile('db.cfg')
+db = SQLAlchemy(app)
+
+
+class Todo(db.Model):
+    __tablename__ = 'todos'
+    id = db.Column('todo_id', db.Integer, primary_key=True)
+    title = db.Column(db.String(60))
+    done = db.Column(db.Boolean)
+    pub_date = db.Column(db.DateTime)
+
+    def __init__(self, title):
+        self.title = title
+        self.done = False
+        self.pub_date = datetime.utcnow()
+
+    def get_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'done': self.done,
+            'pub_date': self.pub_date.strftime('%Y-%m-%d %H:%M'),
+        }
+  </code></pre>
+  <pre><div>Python</div><code class="python">
+def initialize_database():
+    app.logger.info('Database is not created, exec create_all() here.')
+    db.create_all()
+    data1 = Todo('todo1')
+    data2 = Todo('todo2')
+    db.session.add(data1)
+    db.session.add(data2)
+    db.session.commit()
+
+
+@app.route('/sqlalchemy')
+def sqlalchemy():
+    todos = []
+    try:
+        todos = Todo.query.order_by(Todo.pub_date.desc()).all()
+    except:
+        initialize_database()
+    print(todos)
+    return render_template('sqlalchemy.html', todos=todos)
+  </code></pre>
+  <pre><div>db.cfg</div><code class="config">
+SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SECRET_KEY = 'secret'
+DEBUG = True
+  </code></pre>
+  <pre><div>HTML</div><code class="html">
+&#123;% for todo in todos %&#125;
+&lt;div class=&quot;todo&quot;&gt;
+  &lt;span class=&quot;title&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; &#40;&#40; &quot; checked&quot; if todo.done &#41;&#41; disabled&gt;&lt;/input&gt;
+    &#123;% if todo.done %&#125;
+    &lt;strike&gt;&#40;&#40; todo.title &#41;&#41;&lt;/strike&gt;
+    &#123;% else %&#125;
+    &lt;span&gt;&#40;&#40; todo.title &#41;&#41;&lt;/span&gt;
+    &#123;% endif %&#125;
+    &lt;span class=&quot;datetime&quot;&gt;&#40;&#40; todo.pub_date.strftime&#40;'%Y-%m-%d %H:%M'&#41; &#41;&#41;&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;
+&#123;% endfor %&#125;
+  </code></pre>
+</div>
+
+<h3>Vue.js rendered TODO list via Ajax(axios).</h3>
+
+<div id="todos-vue">
+  <div>
+    <label for="new">New task: </label>
+    <input type="text" v-model="newTitle" id="new" @keyup.enter="newTodo"></input>
+    <div class="todo" v-for="(todo, index) in todos" :key="todo.id">
+      <span class="title">
+        <input type="checkbox" v-model="todo.done"></input>
+        <input type="text" v-model="todo.title" :disabled="todo.done"></input>
+        <span class="datetime">[[ todo.pub_date ]]</span>
+        <button @click.once="updateTodo(index)">Update</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="code">
+  <pre><div>Python</div><code class="python">
+@app.route('/sqlalchemy/get', methods=['GET'])
+def sqlalchemy_get():
+    todos = Todo.query.order_by(Todo.pub_date.desc()).all()
+    return jsonify(todos=[todo.get_dict() for todo in todos])
+
+
+@app.route('/sqlalchemy/new', methods=['POST'])
+def sqlalchemy_new():
+    if request.json:
+        db.session.add(Todo(request.json['title']))
+        db.session.commit()
+    return jsonify(status='ok') # Oops: always ok...
+
+
+@app.route('/sqlalchemy/update', methods=['POST'])
+def sqlalchemy_update():
+    if request.json:
+        todo = Todo.query.get(request.json['id'])
+        todo.done = request.json['done']
+        todo.title = request.json['title']
+        db.session.commit()
+    return jsonify(status='ok') # Oops: always ok...
+  </code></pre>
+  <pre><div>JavaScript</div><code class="javascript">
+var todo = new Vue({
+  el: "#todos-vue",
+  delimiters: ["[[", "]]"],
+  data: {
+    todos: [],
+    newTitle: ''
+  },
+  mounted: function() {
+    this.updateTodoList()
+  },
+  methods: {
+    updateTodoList: function() {
+      axios.get('/sqlalchemy/get')
+        .then(function(response) {
+          this.todos = response.data.todos
+        }.bind(this))
+    },
+    newTodo: function() {
+      axios.post('/sqlalchemy/new', { title: this.newTitle })
+        .then(function(response) {
+          this.updateTodoList()
+        }.bind(this))
+    },
+    updateTodo: function(index) {
+      axios.post('/sqlalchemy/update', this.todos[index])
+        .then(function(response) {
+          this.updateTodoList()
+        }.bind(this))
+    }
+  }
+}
+  </code></pre>
+  <pre><div>HTML</div><code class="html">
+&lt;div id=&quot;todos-vue&quot;&gt;
+  &lt;div&gt;
+    &lt;label for=&quot;new&quot;&gt;New task: &lt;/label&gt;
+    &lt;input type=&quot;text&quot; v-model=&quot;newTitle&quot; id=&quot;new&quot; @keyup.enter=&quot;newTodo&quot;&gt;&lt;/input&gt;
+    &lt;div class=&quot;todo&quot; v-for=&quot;(todo, index) in todos&quot; :key=&quot;todo.id&quot;&gt;
+      &lt;span class=&quot;title&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; v-model=&quot;todo.done&quot;&gt;&lt;/input&gt;
+        &lt;input type=&quot;text&quot; v-model=&quot;todo.title&quot; :disabled=&quot;todo.done&quot;&gt;&lt;/input&gt;
+        &lt;span class=&quot;datetime&quot;&gt;[[ todo.pub_date ]]&lt;/span&gt;
+        &lt;button @click.once=&quot;updateTodo(index)&quot;&gt;Update&lt;/button&gt;
+      &lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+  </code></pre>
+</div>
+
+<script>
+var todo = new Vue({
+  el: "#todos-vue",
+  delimiters: ["[[", "]]"],
+  data: {
+    todos: [],
+    newTitle: ''
+  },
+  mounted: function() {
+    this.updateTodoList()
+  },
+  methods: {
+    updateTodoList: function() {
+      axios.get('/sqlalchemy/get')
+        .then(function(response) {
+          this.todos = response.data.todos
+        }.bind(this))
+    },
+    newTodo: function() {
+      axios.post('/sqlalchemy/new', { title: this.newTitle })
+        .then(function(response) {
+          this.updateTodoList()
+        }.bind(this))
+    },
+    updateTodo: function(index) {
+      axios.post('/sqlalchemy/update', this.todos[index])
+        .then(function(response) {
+          this.updateTodoList()
+        }.bind(this))
+    }
+  }
+})
+</script>
+{% endblock %}

@@ -73,7 +73,6 @@ def sqlalchemy():
         todos = Todo.query.order_by(Todo.pub_date.desc()).all()
     except:
         initialize_database()
-    print(todos)
     return render_template('sqlalchemy.html', todos=todos)
 
 

@@ -7,7 +7,164 @@
 {% endblock %}
 
 {% block style %}
+<style>
+#app {
+  width: 20rem;
+  margin: 0 auto;  
+}
+.todos {
+  width: 20rem;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.item {
+  cursor: pointer;
+  line-height: 2rem;
+  border-bottom: 1px solid #EEE;
+  background: white;
+}
+.todo-form {
+  display: flex;
+}
+.todo-input {
+  flex: 1;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;  
+}
+.done {
+  text-decoration: line-through;
+  color: #999;
+}
+.flip-list-move {
+  transition: transform 0.4s cubic-bezier(.96,.04,.04,.96);
+}
+</style>
 {% endblock %}
 
 {% block body %}
+<h1>Vuex simple example</h1>
+
+<div class="code">
+    <pre><div>JavaScript</div><code class="javascript">
+const store = new Vuex.Store({
+  state: {
+    todos: [{
+      text: &quot;Excample Task 1&quot;,
+      done: false,
+      created: 0
+    }, {
+      text: &quot;Excample Task 2&quot;,
+      done: true,
+      created: 1
+    }]
+  },
+  mutations: {
+    addTodo: (state, payload) =&gt; state.todos.unshift(payload),
+    toggleState: (state, payload) =&gt; {
+      payload.done = !payload.done
+    }
+  }
+})
+
+new Vue({
+  el: '#vuex',
+  template: `
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;form @submit.prevent class=&quot;todo-form&quot;&gt;
+      &lt;input class=&quot;todo-input&quot; type=&quot;text&quot; v-model=&quot;contents&quot;&gt;
+      &lt;button type=&quot;submit&quot; @click=&quot;addTodo(contents)&quot;&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;div class=&quot;todos&quot;&gt;
+      &lt;transition-group name=&quot;flip-list&quot; tag=&quot;div&quot;&gt;
+        &lt;div v-for=&quot;todo in todos&quot; v-bind:key=&quot;todo.created&quot; class=&quot;item&quot; @click=&quot;toggleState(todo)&quot; :class=&quot;{'done': todo.done}&quot;&gt;{{todo.text}}&lt;/div&gt;
+      &lt;/transition-group&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  `,
+  data: {
+    contents: &quot;&quot;
+  },
+  computed: {
+    todos() {
+      return store.state.todos.slice().sort(function (x, y) { return (x.done === y.done) ? y.created - x.created : x.done ? 1 : -1; })
+    }
+  },
+  methods: {
+    addTodo(contents) {
+      if (this.contents === '') {
+        return;
+      }
+      this.contents = '';
+      store.commit('addTodo', { text: contents, done: false, created: new Date().getTime() })
+    },
+    toggleState(item) {
+      store.commit('toggleState', item)
+    }
+  }
+})
+    </code></pre>
+  </div>
+<hr>
+
+<div id="vuex"></div>
+
+<script>
+  const store = new Vuex.Store({
+    state: {
+      todos: [{
+        text: "Excample Task 1",
+        done: false,
+        created: 0
+      }, {
+        text: "Excample Task 2",
+        done: true,
+        created: 1
+      }]
+    },
+    mutations: {
+      addTodo: (state, payload) => state.todos.unshift(payload),
+      toggleState: (state, payload) => {
+        payload.done = !payload.done
+      }
+    }
+  })
+
+  new Vue({
+    el: '#vuex',
+    template: `
+    <div id="app">
+      <form @submit.prevent class="todo-form">
+        <input class="todo-input" type="text" v-model="contents">
+        <button type="submit" @click="addTodo(contents)">Add</button>
+      </form>
+      <div class="todos">
+        <transition-group name="flip-list" tag="div">
+          <div v-for="todo in todos" v-bind:key="todo.created" class="item" @click="toggleState(todo)" :class="{'done': todo.done}">{{todo.text}}</div>
+        </transition-group>
+      </div>
+    </div>
+    `,
+    data: {
+      contents: ""
+    },
+    computed: {
+      todos() {
+        return store.state.todos.slice().sort(function (x, y) { return (x.done === y.done) ? y.created - x.created : x.done ? 1 : -1; })
+      }
+    },
+    methods: {
+      addTodo(contents) {
+        if (this.contents === '') {
+          return;
+        }
+        this.contents = '';
+        store.commit('addTodo', { text: contents, done: false, created: new Date().getTime() })
+      },
+      toggleState(item) {
+        store.commit('toggleState', item)
+      }
+    }
+  })
+</script>
 {% endblock %}

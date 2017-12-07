@@ -74,5 +74,5 @@ Try it now.
   - using Node.js(using vue-cli 'webpack-simple')
     - [x] Single File Component
     - [ ] TypeScript with Single File Component
-    - [ ] Vuex
+    - [x] Vuex
 - [x] Vue.js v0.10.3
